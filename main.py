@@ -1,12 +1,11 @@
 """Top-level handler code"""
 import os
-import webapp2
 import jinja2
+import webapp2
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
-from models import Note
-
+from models import CheckListItem, Note
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -39,11 +38,7 @@ class MainHandler(webapp2.RequestHandler):
         if user is None:
             self.error(401)
 
-        note = Note(parent = ndb.Key("User", user.nickname()),
-            title = self.request.get('title'),
-            content = self.request.get('content'))
-
-        note.put()
+        self._create_note(user)
 
         logout_url = users.create_logout_url(self.request.uri)
 
@@ -53,6 +48,24 @@ class MainHandler(webapp2.RequestHandler):
         }
 
         self.response.write(self._render_template("main.html", template_context))
+
+    @ndb.transactional
+    def _create_note(self, user):
+        note = Note(parent = ndb.Key("User", user.nickname()),
+            title = self.request.get('title'),
+            content = self.request.get('content'))
+        
+        note.put()
+
+        item_titles = self.request.get("checklist_items").split(",")
+
+        for item_title in item_titles:
+            item = CheckListItem(parent=note.key, title=item_title)
+            item.put()
+            note.checklist_items.append(item.key)
+        
+        note.put()
+
 
     def _render_template(self, template_name, context=None):
         if context is None:

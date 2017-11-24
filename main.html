@@ -15,6 +15,13 @@
         <div class="note">
             <h4>{{note.title}}</h4>
             <p>Content: {{note.content}}</p>
+            {% if note.checklist_items %}
+            <ul>
+                {% for item in note.checklist_items %}
+                <li class="{% if item.get().checked %}checked{% endif %}">{{item.get().title}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}        
         </div>
         {% endfor %}
 
@@ -27,6 +34,10 @@
             <div class="form-group">
                 <label for="title">Content:</label>
                 <textarea id="content" name="content" ></textarea>
+            </div>
+            <div class="form-group">
+                <label for="checklist_items">Checklist Items:</label>
+                <input type="text" id="checklist_items" name="checklist_items" placeholder="comma,separated,values" />
             </div>
             <div class="form-group">
                 <button type="submit">Save note</button>

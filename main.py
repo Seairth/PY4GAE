@@ -66,7 +66,6 @@ class MainHandler(webapp2.RequestHandler):
         
         note.put()
 
-
     def _render_template(self, template_name, context=None):
         if context is None:
             context = {}

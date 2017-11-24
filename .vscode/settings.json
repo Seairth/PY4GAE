@@ -1,13 +1,22 @@
 {
     "python.pythonPath": "C:\\Python27\\python.exe",
     "python.autoComplete.extraPaths": [
-        "C:/Users/Seairth/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib",
-        "C:/Users/Seairth/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib/jinja2-2.6",
-        "C:/Users/Seairth/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib/webapp2-2.5.2",
-        "C:/Users/Seairth/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/google",
-        "C:/Users/Seairth/AppData/Local/Google/Cloud SDK/google-cloud-sdk/lib"
+        "${env.USERPROFILE}/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib",
+        "${env.USERPROFILE}/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib/jinja2-2.6",
+        "${env.USERPROFILE}/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/lib/webapp2-2.5.2",
+        "${env.USERPROFILE}/AppData/Local/Google/Cloud SDK/google-cloud-sdk/platform/google_appengine/google",
+        "${env.USERPROFILE}/AppData/Local/Google/Cloud SDK/google-cloud-sdk/lib"
     ],
     "python.linting.pylintArgs": [
         "--errors-only"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.pyc": true,
+        "**/index.yaml": true
+    }
 }

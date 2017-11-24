@@ -4,6 +4,9 @@ import webapp2
 import jinja2
 
 from google.appengine.api import users
+from google.appengine.ext import ndb
+from models import Note
+
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -36,13 +39,17 @@ class MainHandler(webapp2.RequestHandler):
         if user is None:
             self.error(401)
 
+        note = Note(parent = ndb.Key("User", user.nickname()),
+            title = self.request.get('title'),
+            content = self.request.get('content'))
+
+        note.put()
+
         logout_url = users.create_logout_url(self.request.uri)
 
         template_context = {
             'user': user.nickname(),
-            'logout_url': logout_url,
-            'note_title': self.request.get('title'),
-            'note_content': self.request.get('content')
+            'logout_url': logout_url
         }
 
         self.response.write(self._render_template("main.html", template_context))
@@ -50,6 +57,11 @@ class MainHandler(webapp2.RequestHandler):
     def _render_template(self, template_name, context=None):
         if context is None:
             context = {}
+
+        user = users.get_current_user()
+        key = ndb.Key("User", user.nickname())
+        qry = Note.owner_query(key)
+        context['notes'] = qry.fetch()
 
         template = jinja_env.get_template(template_name)
         return template.render(context)

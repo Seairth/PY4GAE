@@ -1,2 +1,5 @@
 *.pyc
 index.yaml
+cloudstorage/
+GoogleAppEngine*/
+ptvsd*/

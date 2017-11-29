@@ -17,6 +17,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/*.pyc": true,
-        "**/index.yaml": true
+        "**/index.yaml": true,
+        "cloudstorage/": true,
+        "GoogleAppEngine*/": true,
+        "ptvsd*/": true
     }
 }

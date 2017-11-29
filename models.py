@@ -5,6 +5,7 @@ class Note(ndb.Model):
     content = ndb.TextProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
     checklist_items = ndb.KeyProperty("CheckListItem", repeated=True)
+    files = ndb.StringProperty(repeated=True)
 
     @classmethod
     def owner_query(cls, parent_key):

@@ -12,7 +12,7 @@
 
             <p>Hello, <b>{{user}}</b> - <a href="{{logout_url}}">Logout</a></p>
     
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <legend>Add a new note</legend>
                 <div class="form-group">
                     <label for="title">Title:</label>
@@ -27,6 +27,10 @@
                     <input type="text" id="checklist_items" name="checklist_items" placeholder="comma,separated,values" />
                 </div>
                 <div class="form-group">
+                    <label for="uploaded_file">Attached file:</label>
+                    <input type="file" id="uploaded_file" name="uploaded_file" />
+                </div>
+                <div class="form-group">
                     <button type="submit">Save note</button>
                 </div>
             </form>
@@ -35,6 +39,15 @@
             <div class="note">
                 <h4>{{note.title}}</h4>
                 <p class="note-content">{{note.content}}</p>
+
+                {% if note.files %}
+                <ul>
+                    {% for file in note.files %}
+                    <li class="file"><a href="/media/{{file}}">{{file}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 {% if note.checklist_items %}
                 <ul>
                     {% for item in note.checklist_items %}
